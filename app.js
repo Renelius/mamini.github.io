@@ -7,6 +7,7 @@ tg.MainButton.color = '#2cab37';
 
 let item = "";
 
+
 let btn1 = document.getElementById("btn1");
 let btn2 = document.getElementById("btn2");
 let btn3 = document.getElementById("btn3");
@@ -83,6 +84,7 @@ btn6.addEventListener("click", function(){
 
 Telegram.WebApp.onEvent("mainButtonClicked", function(){
 	tg.sendData(item);
+	tg.close();
 });
 
 
@@ -94,10 +96,5 @@ p.innerText = `${tg.initDataUnsafe.user.first_name}
 ${tg.initDataUnsafe.user.last_name}`;
 
 usercard.appendChild(p);
-
-
-
-
-
 
 
