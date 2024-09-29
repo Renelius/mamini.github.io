@@ -7,6 +7,8 @@ tg.MainButton.color = "#2cab37";
 
 let order = {};
 
+// console.log(tg);
+
 const items = document.querySelectorAll(".item");
 const orderButtons = document.querySelectorAll(".order-btn");
 const manageCountBlocks = document.querySelectorAll(".item-manage-count");
@@ -80,7 +82,7 @@ manageCountBlocks.forEach((block, i) => {
 });
 
 cartButton.addEventListener("click", () => {
-  Telegram.WebApp.openLink("cart.html");
+  Telegram.WebApp.openTelegramLink("cart.html");
 });
 
 function countForCart(container) {
