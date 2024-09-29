@@ -48,8 +48,11 @@ let order = {};
 
 drawMenu();
 
+Telegram.WebApp.onEvent("backButtonClicked", closeCartCallback);
+
 function drawMenu() {
   tg.MainButton.setText(`Перейти в корзину`);
+  tg.BackButton.hide();
 
   Telegram.WebApp.onEvent("mainButtonClicked", openCartCallback);
 
@@ -213,8 +216,19 @@ function makeOrderCallback() {
   tg.close();
 }
 
+function closeCartCallback() {
+  document
+    .querySelector(".cart-container")
+    .classList.remove("cart-container_open");
+  Telegram.WebApp.offEvent("mainButtonClicked", makeOrderCallback);
+
+  drawMenu();
+}
+
 function executeCart() {
   let tg = window.Telegram.WebApp;
+
+  tg.BackButton.show();
 
   Telegram.WebApp.offEvent("mainButtonClicked", openCartCallback);
 
