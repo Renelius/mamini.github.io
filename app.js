@@ -82,7 +82,9 @@ manageCountBlocks.forEach((block, i) => {
 });
 
 cartButton.addEventListener("click", () => {
-  Telegram.WebApp.openTelegramLink("cart.html");
+  Telegram.WebApp.openTelegramLink(
+    "https://renelius.github.io/mamini.github.io/cart.html"
+  );
 });
 
 function countForCart(container) {
@@ -101,11 +103,11 @@ Telegram.WebApp.onEvent("mainButtonClicked", function () {
   tg.close();
 });
 
-let usercard = document.getElementById("usercard");
+// let usercard = document.getElementById("usercard");
 
-let p = document.createElement("p");
+// let p = document.createElement("p");
 
-p.innerText = `${tg.initDataUnsafe.user.first_name}
-${tg.initDataUnsafe.user.last_name}`;
+// p.innerText = `${tg.initDataUnsafe.user.first_name}
+// ${tg.initDataUnsafe.user.last_name}`;
 
-usercard.appendChild(p);
+// usercard.appendChild(p);
