@@ -11,6 +11,10 @@ button {
   cursor: pointer;
 }
 
+a {
+  text-decoration: none;
+}
+
 /* wrappers */
 body {
   margin: 0;
