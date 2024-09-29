@@ -32,6 +32,9 @@ orderButtons.forEach((button, i) => {
 
     countForCart(cartCount);
     saveOrderToLS();
+
+    tg.MainButton.setText("Перейти в корзину");
+    tg.MainButton.show();
   });
 });
 
@@ -57,6 +60,10 @@ manageCountBlocks.forEach((block, i) => {
 
     countForCart(cartCount);
     saveOrderToLS();
+
+    if (Object.values(order).every((dish) => dish.count === 0)) {
+      tg.MainButton.hide();
+    }
   });
 
   plusButton.addEventListener("click", () => {
