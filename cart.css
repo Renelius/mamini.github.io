@@ -24,7 +24,7 @@ body {
   background: var(--tg-theme-bg-color);
 }
 
-.container {
+.cart-container {
   max-width: 390px;
 
   padding-top: 20px;
