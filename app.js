@@ -58,12 +58,13 @@ manageCountBlocks.forEach((block, i) => {
     const dishesCount = Math.max(0, (+count.innerText || 0) - 1);
 
     count.innerText = dishesCount;
+    order[dishId].count = dishesCount;
     if (dishesCount === 0) {
       block.style.display = "none";
       orderButtons[i].style.display = "block";
-    }
 
-    order[dishId].count = dishesCount;
+      delete order[dishId];
+    }
 
     countForCart(cartCount);
     saveOrderToLS();
@@ -101,15 +102,37 @@ function saveOrderToLS() {
   localStorage.setItem("restoraunt_order", JSON.stringify(order));
 }
 
-Telegram.WebApp.onEvent("mainButtonClicked", function () {
+function loadCartFromLS() {
+  return localStorage.getItem("restoraunt_order");
+}
+
+function updateTgButtonText() {
+  const totalPrice = Object.values(order || {}).reduce(
+    (acc, cur) => acc + cur.price * cur.count,
+    0
+  );
+  tg.MainButton.setText(`Заказать на сумму ${totalPrice} ₽`);
+}
+
+function openCartCallback() {
   console.log(JSON.stringify(order));
   executeCart();
   // tg.sendData(JSON.stringify(order));
   // Telegram.WebApp.openTelegramLink("cart.html");
-});
+}
+
+function makeOrderCallback(order) {
+  console.log(JSON.stringify(order));
+  tg.sendData(JSON.stringify(order));
+  tg.close();
+}
+
+Telegram.WebApp.onEvent("mainButtonClicked", openCartCallback);
 
 function executeCart() {
   let tg = window.Telegram.WebApp;
+
+  Telegram.WebApp.offEvent("mainButtonClicked", openCartCallback);
 
   tg.expand();
 
@@ -118,11 +141,22 @@ function executeCart() {
 
   tg.MainButton.show();
 
-  let order = JSON.parse(loadCartFromLS() || "{}");
+  // let order = JSON.parse(loadCartFromLS() || "{}");
+
+  updateTgButtonText();
+
+  function closeCart() {
+    container.classList.remove("cart-container_open");
+    Telegram.WebApp.offEvent("mainButtonClicked", makeOrderCallback);
+  }
 
   const container = document.querySelector(".cart-container");
   container.innerHTML = "";
   Object.values(order || {}).forEach((dish) => {
+    if (dish.count === 0) {
+      return;
+    }
+
     const item = document.createElement("div");
     item.classList.add("cart-item");
 
@@ -157,17 +191,18 @@ function executeCart() {
 
       dishCount.innerText = dishesCount;
       itemPrice.innerText = `${dishesCount * dish.price} ₽`;
+      order[dish.id].count = dishesCount;
       if (dishesCount === 0) {
         item.remove();
-      }
 
-      order[dish.id].count = dishesCount;
+        delete order[dish.id];
+      }
 
       saveOrderToLS();
       updateTgButtonText();
 
       if (Object.values(order).every((dish) => dish.count === 0)) {
-        tg.MainButton.hide();
+        closeCart();
       }
     });
 
@@ -195,23 +230,7 @@ function executeCart() {
     container.classList.add("cart-container_open");
   });
 
-  function loadCartFromLS() {
-    return localStorage.getItem("restoraunt_order");
-  }
-
-  function updateTgButtonText() {
-    const totalPrice = Object.values(order || {}).reduce(
-      (acc, cur) => acc + cur.price * cur.count,
-      0
-    );
-    tg.MainButton.setText(`Заказать на сумму ${totalPrice} ₽`);
-  }
-
-  Telegram.WebApp.onEvent("mainButtonClicked", function () {
-    console.log(JSON.stringify(order));
-    tg.sendData(JSON.stringify(order));
-    // tg.close();
-  });
+  Telegram.WebApp.onEvent("mainButtonClicked", () => makeOrderCallback(order));
 }
 
 // let usercard = document.getElementById("usercard");
