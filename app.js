@@ -12,6 +12,7 @@ const orderButtons = document.querySelectorAll(".order-btn");
 const manageCountBlocks = document.querySelectorAll(".item-manage-count");
 
 const cartCount = document.querySelector(".cart-count");
+const cartButton = document.querySelector(".cart-button");
 
 orderButtons.forEach((button, i) => {
   button.addEventListener("click", () => {
@@ -76,6 +77,10 @@ manageCountBlocks.forEach((block, i) => {
     countForCart(cartCount);
     saveOrderToLS();
   });
+});
+
+cartButton.addEventListener("click", () => {
+  Telegram.WebApp.openLink("cart.html");
 });
 
 function countForCart(container) {
