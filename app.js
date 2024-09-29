@@ -210,7 +210,7 @@ function executeCart() {
   Telegram.WebApp.onEvent("mainButtonClicked", function () {
     console.log(JSON.stringify(order));
     tg.sendData(JSON.stringify(order));
-    tg.close();
+    // tg.close();
   });
 }
 
