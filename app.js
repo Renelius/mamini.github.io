@@ -5,91 +5,168 @@ tg.expand();
 tg.MainButton.textColor = "#FFFFFF";
 tg.MainButton.color = "#2cab37";
 
+const menu = [
+  {
+    id: 1,
+    name: "dish 1",
+    img: "images/burger.png",
+    price: 100,
+  },
+  {
+    id: 2,
+    name: "dish 2",
+    img: "images/burger.png",
+    price: 100,
+  },
+  {
+    id: 3,
+    name: "dish 3",
+    img: "images/terpug.png",
+    price: 100,
+  },
+  {
+    id: 4,
+    name: "dish 4",
+    img: "images/terpug.png",
+    price: 100,
+  },
+  {
+    id: 5,
+    name: "dish 5",
+    img: "images/caesar.png",
+    price: 100,
+  },
+  {
+    id: 6,
+    name: "dish 6",
+    img: "images/caesar.png",
+    price: 100,
+  },
+];
+
 let order = {};
 
-// console.log(tg);
+drawMenu();
 
-const items = document.querySelectorAll(".item");
-const orderButtons = document.querySelectorAll(".order-btn");
-const manageCountBlocks = document.querySelectorAll(".item-manage-count");
+function drawMenu() {
+  tg.MainButton.setText(`Перейти в корзину`);
 
-const cartCount = document.querySelector(".cart-count");
-const cartButton = document.querySelector(".cart-button");
+  const container = document.querySelector(".inner");
+  container.innerHTML = "";
 
-orderButtons.forEach((button, i) => {
-  button.addEventListener("click", () => {
-    const parent = items[i];
+  const cartCount = document.querySelector(".cart-count");
+  countForCart(cartCount);
+  const cartButton = document.querySelector(".cart-button");
 
-    const dishId = parent.dataset.id;
-    const dishName = parent.dataset.name;
-    const dishPrice = parent.dataset.price;
-    const dishImg = parent.dataset.img;
-
-    order[dishId] = {
-      id: dishId,
-      name: dishName,
-      count: 1,
-      price: dishPrice,
-      img: dishImg,
-    };
-
-    button.style.display = "none";
-    manageCountBlocks[i].style.display = "flex";
-    manageCountBlocks[i].querySelector(".item-count").innerText = 1;
-
-    countForCart(cartCount);
-    saveOrderToLS();
-
-    tg.MainButton.setText("Перейти в корзину");
-    tg.MainButton.show();
+  cartButton.addEventListener("click", () => {
+    console.log(JSON.stringify(order));
+    executeCart();
   });
-});
 
-manageCountBlocks.forEach((block, i) => {
-  const minusButton = block.querySelector(".button-dec");
-  const plusButton = block.querySelector(".button-inc");
-  const count = block.querySelector(".item-count");
+  menu.forEach((dish) => {
+    const { id, name, img, price } = dish;
+    const dishFromOrder = order[id];
 
-  const parent = items[i];
+    const item = document.createElement("div");
+    item.classList.add("item");
 
-  const dishId = parent.dataset.id;
+    const itemImg = document.createElement("img");
+    itemImg.src = img;
+    itemImg.alt = name;
+    itemImg.classList.add("img");
 
-  minusButton.addEventListener("click", () => {
-    const dishesCount = Math.max(0, (+count.innerText || 0) - 1);
+    const itemActions = document.createElement("div");
+    itemActions.classList.add("item-actions");
 
-    count.innerText = dishesCount;
-    order[dishId].count = dishesCount;
-    if (dishesCount === 0) {
-      block.style.display = "none";
-      orderButtons[i].style.display = "block";
+    const itemPrice = document.createElement("span");
+    itemPrice.innerText = `${price}$`;
+    itemPrice.classList.add("item-price");
 
-      delete order[dishId];
+    const buttonAdd = document.createElement("button");
+    buttonAdd.classList.add("btn", "order-btn");
+    buttonAdd.innerText = "Add";
+
+    const itemManageBlock = document.createElement("div");
+    itemManageBlock.classList.add("item-manage-count");
+
+    const itemCount = document.createElement("span");
+    itemCount.classList.add("item-count");
+    itemCount.innerText = dishFromOrder?.count || 0;
+    const buttonDec = document.createElement("button");
+    buttonDec.classList.add("button-dec");
+    buttonDec.innerText = "-";
+    const buttonInc = document.createElement("button");
+    buttonInc.classList.add("button-inc");
+    buttonInc.innerText = "+";
+
+    if (dishFromOrder && dishFromOrder?.count !== 0) {
+      buttonAdd.style.display = "none";
+      itemManageBlock.style.display = "flex";
+    } else {
+      buttonAdd.style.display = "block";
+      itemManageBlock.style.display = "none";
     }
 
-    countForCart(cartCount);
-    saveOrderToLS();
+    buttonAdd.addEventListener("click", () => {
+      order[id] = {
+        id,
+        name,
+        count: 1,
+        price,
+        img,
+      };
 
-    if (Object.values(order).every((dish) => dish.count === 0)) {
-      tg.MainButton.hide();
-    }
+      buttonAdd.style.display = "none";
+      itemManageBlock.style.display = "flex";
+      itemCount.innerText = 1;
+
+      countForCart(cartCount);
+      saveOrderToLS();
+
+      tg.MainButton.setText("Перейти в корзину");
+      tg.MainButton.show();
+    });
+
+    buttonDec.addEventListener("click", () => {
+      const dishesCount = Math.max(0, (+itemCount.innerText || 0) - 1);
+
+      itemCount.innerText = dishesCount;
+      order[id].count = dishesCount;
+      if (dishesCount === 0) {
+        itemManageBlock.style.display = "none";
+        buttonAdd.style.display = "block";
+
+        delete order[id];
+      }
+
+      countForCart(cartCount);
+      saveOrderToLS();
+
+      if (Object.values(order).every((dish) => dish.count === 0)) {
+        tg.MainButton.hide();
+      }
+    });
+
+    buttonInc.addEventListener("click", () => {
+      const dishesCount = (+itemCount.innerText || 0) + 1;
+
+      itemCount.innerText = dishesCount;
+
+      order[id].count = dishesCount;
+
+      countForCart(cartCount);
+      saveOrderToLS();
+    });
+
+    itemManageBlock.append(buttonDec, itemCount, buttonInc);
+
+    itemActions.append(itemPrice, buttonAdd, itemManageBlock);
+
+    item.append(itemImg, itemActions);
+
+    container.append(item);
   });
-
-  plusButton.addEventListener("click", () => {
-    const dishesCount = (+count.innerText || 0) + 1;
-
-    count.innerText = dishesCount;
-
-    order[dishId].count = dishesCount;
-
-    countForCart(cartCount);
-    saveOrderToLS();
-  });
-});
-
-cartButton.addEventListener("click", () => {
-  console.log(JSON.stringify(order));
-  executeCart();
-});
+}
 
 function countForCart(container) {
   container.innerText = Object.values(order).reduce(
@@ -121,7 +198,7 @@ function openCartCallback() {
   // Telegram.WebApp.openTelegramLink("cart.html");
 }
 
-function makeOrderCallback(order) {
+function makeOrderCallback() {
   console.log(JSON.stringify(order));
   tg.sendData(JSON.stringify(order));
   tg.close();
@@ -148,11 +225,15 @@ function executeCart() {
   function closeCart() {
     container.classList.remove("cart-container_open");
     Telegram.WebApp.offEvent("mainButtonClicked", makeOrderCallback);
+
+    drawMenu();
   }
 
   const container = document.querySelector(".cart-container");
   container.innerHTML = "";
-  Object.values(order || {}).forEach((dish) => {
+  Object.values(order || {}).forEach(drawDishCartItem);
+
+  function drawDishCartItem(dish) {
     if (dish.count === 0) {
       return;
     }
@@ -228,9 +309,9 @@ function executeCart() {
 
     container.appendChild(item);
     container.classList.add("cart-container_open");
-  });
+  }
 
-  Telegram.WebApp.onEvent("mainButtonClicked", () => makeOrderCallback(order));
+  Telegram.WebApp.onEvent("mainButtonClicked", makeOrderCallback);
 }
 
 // let usercard = document.getElementById("usercard");
