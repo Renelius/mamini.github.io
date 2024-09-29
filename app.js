@@ -60,10 +60,7 @@ function drawMenu() {
   countForCart(cartCount);
   const cartButton = document.querySelector(".cart-button");
 
-  cartButton.addEventListener("click", () => {
-    console.log(JSON.stringify(order));
-    executeCart();
-  });
+  cartButton.addEventListener("click", openCartCallback);
 
   menu.forEach((dish) => {
     const { id, name, img, price } = dish;
@@ -194,6 +191,16 @@ function updateTgButtonText() {
 }
 
 function openCartCallback() {
+  if (
+    Object.values(order || {}).reduce(
+      (acc, cur) => acc + (cur.count || 0),
+      0
+    ) === 0
+  ) {
+    WebApp.showAlert("Чтобы перейти в корзину, выберите блюда");
+    return;
+  }
+
   console.log(JSON.stringify(order));
   executeCart();
   // tg.sendData(JSON.stringify(order));
