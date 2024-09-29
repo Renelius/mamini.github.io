@@ -2,91 +2,90 @@ let tg = window.Telegram.WebApp;
 
 tg.expand();
 
-tg.MainButton.textColor = '#FFFFFF';
-tg.MainButton.color = '#2cab37';
+tg.MainButton.textColor = "#FFFFFF";
+tg.MainButton.color = "#2cab37";
 
-let item = "";
+let order = {};
 
+const items = document.querySelectorAll(".item");
+const orderButtons = document.querySelectorAll(".order-btn");
+const manageCountBlocks = document.querySelectorAll(".item-manage-count");
 
-let btn1 = document.getElementById("btn1");
-let btn2 = document.getElementById("btn2");
-let btn3 = document.getElementById("btn3");
-let btn4 = document.getElementById("btn4");
-let btn5 = document.getElementById("btn5");
-let btn6 = document.getElementById("btn6");
+const cartCount = document.querySelector(".cart-count");
 
-btn1.addEventListener("click", function(){
-	if (tg.MainButton.isVisible) {
-		tg.MainButton.hide();
-	}
-	else {
-		tg.MainButton.setText("Нажми сюда для оплаты 1 товара");
-		item = "1";
-		tg.MainButton.show();
-	}
+orderButtons.forEach((button, i) => {
+  button.addEventListener("click", () => {
+    const parent = items[i];
+
+    const dishId = parent.dataset.id;
+    const dishName = parent.dataset.name;
+
+    order[dishId] = {
+      id: dishId,
+      name: dishName,
+      count: 1,
+    };
+
+    button.style.display = "none";
+    manageCountBlocks[i].style.display = "flex";
+    manageCountBlocks[i].querySelector(".item-count").innerText = 1;
+
+    countForCart(cartCount);
+    saveOrderToLS();
+  });
 });
 
-btn2.addEventListener("click", function(){
-	if (tg.MainButton.isVisible) {
-		tg.MainButton.hide();
-	}
-	else {
-		tg.MainButton.setText("Нажми сюда для оплаты 2 товара");
-		item = "2";
-		tg.MainButton.show();
-	}
+manageCountBlocks.forEach((block, i) => {
+  const minusButton = block.querySelector(".button-dec");
+  const plusButton = block.querySelector(".button-inc");
+  const count = block.querySelector(".item-count");
+
+  const parent = items[i];
+
+  const dishId = parent.dataset.id;
+
+  minusButton.addEventListener("click", () => {
+    const dishesCount = Math.max(0, +count.innerText - 1);
+
+    count.innerText = dishesCount;
+    if (dishesCount === 0) {
+      block.style.display = "none";
+      orderButtons[i].style.display = "block";
+    }
+
+    order[dishId].count = dishesCount;
+
+    countForCart(cartCount);
+    saveOrderToLS();
+  });
+
+  plusButton.addEventListener("click", () => {
+    const dishesCount = +count.innerText + 1;
+
+    count.innerText = dishesCount;
+
+    order[dishId].count = dishesCount;
+
+    countForCart(cartCount);
+    saveOrderToLS();
+  });
 });
 
-btn3.addEventListener("click", function(){
-	if (tg.MainButton.isVisible) {
-		tg.MainButton.hide();
-	}
-	else {
-		tg.MainButton.setText("Нажми сюда для оплаты 3 товара");
-		item = "3";
-		tg.MainButton.show();
-	}
+function countForCart(container) {
+  container.innerText = Object.values(order).reduce(
+    (acc, cur) => acc + cur.count,
+    0
+  );
+}
+
+function saveOrderToLS() {
+  localStorage.setItem("restoraunt_order", JSON.stringify(order));
+}
+
+Telegram.WebApp.onEvent("mainButtonClicked", function () {
+  tg.sendData(item);
+  tg.close();
 });
-
-btn4.addEventListener("click", function(){
-	if (tg.MainButton.isVisible) {
-		tg.MainButton.hide();
-	}
-	else {
-		tg.MainButton.setText("Нажми сюда для оплаты 4 товара");
-		item = "4";
-		tg.MainButton.show();
-	}
-});
-
-btn5.addEventListener("click", function(){
-	if (tg.MainButton.isVisible) {
-		tg.MainButton.hide();
-	}
-	else {
-		tg.MainButton.setText("Нажми сюда для оплаты 5 товара");
-		item = "5";
-		tg.MainButton.show();
-	}
-});
-
-btn6.addEventListener("click", function(){
-	if (tg.MainButton.isVisible) {
-		tg.MainButton.hide();
-	}
-	else {
-		tg.MainButton.setText("Нажми сюда для оплаты 6 товара");
-		item = "6";
-		tg.MainButton.show();
-	}
-});
-
-
-Telegram.WebApp.onEvent("mainButtonClicked", function(){
-	tg.sendData(item);
-	tg.close();
-});
-
 
 let usercard = document.getElementById("usercard");
 
@@ -96,5 +95,3 @@ p.innerText = `${tg.initDataUnsafe.user.first_name}
 ${tg.initDataUnsafe.user.last_name}`;
 
 usercard.appendChild(p);
-
-

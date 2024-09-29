@@ -8,30 +8,98 @@
   </head>
   <body>
     <div class="container">
+      <div class="cart">
+        <button class="cart-button">
+          <svg
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M6.29977 5H21L19 12H7.37671M20 16H8L6 3H3M9 20C9 20.5523 8.55228 21 8 21C7.44772 21 7 20.5523 7 20C7 19.4477 7.44772 19 8 19C8.55228 19 9 19.4477 9 20ZM20 20C20 20.5523 19.5523 21 19 21C18.4477 21 18 20.5523 18 20C18 19.4477 18.4477 19 19 19C19.5523 19 20 19.4477 20 20Z"
+              stroke="#fff"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            />
+          </svg>
+          <span class="cart-count">0</span>
+        </button>
+      </div>
       <div class="inner">
-        <div class="item">
+        <div class="item" data-id="1" data-name="dish 1">
           <img src="images/burger.png" alt="" class="img" />
-          <button class="btn" id="btn1">Add1</button>
+          <div class="item-actions">
+            <span class="item-price">$100</span>
+            <button class="btn order-btn">Add</button>
+            <div class="item-manage-count">
+              <button class="button-dec">-</button>
+              <span class="item-count">0</span>
+              <button class="button-inc">+</button>
+            </div>
+          </div>
         </div>
-        <div class="item">
+        <div class="item" data-id="2" data-name="dish 2">
           <img src="images/burger.png" alt="" class="img" />
-          <button class="btn" id="btn2">Add</button>
+          <div class="item-actions">
+            <span class="item-price">$100</span>
+            <button class="btn order-btn">Add</button>
+            <div class="item-manage-count">
+              <button class="button-dec">-</button>
+              <span class="item-count">0</span>
+              <button class="button-inc">+</button>
+            </div>
+          </div>
         </div>
-        <div class="item">
+        <div class="item" data-id="3" data-name="dish 3">
           <img src="images/terpug.png" alt="" class="img" />
-          <button class="btn" id="btn3">Add</button>
+          <div class="item-actions">
+            <span class="item-price">$100</span>
+            <button class="btn order-btn">Add</button>
+            <div class="item-manage-count">
+              <button class="button-dec">-</button>
+              <span class="item-count">0</span>
+              <button class="button-inc">+</button>
+            </div>
+          </div>
         </div>
-        <div class="item">
+        <div class="item" data-id="4" data-name="dish 4">
           <img src="images/terpug.png" alt="" class="img" />
-          <button class="btn" id="btn4">Add</button>
+          <div class="item-actions">
+            <span class="item-price">$100</span>
+            <button class="btn order-btn">Add</button>
+            <div class="item-manage-count">
+              <button class="button-dec">-</button>
+              <span class="item-count">0</span>
+              <button class="button-inc">+</button>
+            </div>
+          </div>
         </div>
-        <div class="item">
+        <div class="item" data-id="5" data-name="dish 5">
           <img src="images/caesar.png" alt="" class="img" />
-          <button class="btn" id="btn5">Add</button>
+          <div class="item-actions">
+            <span class="item-price">$100</span>
+            <button class="btn order-btn">Add</button>
+            <div class="item-manage-count">
+              <button class="button-dec">-</button>
+              <span class="item-count">0</span>
+              <button class="button-inc">+</button>
+            </div>
+          </div>
         </div>
-        <div class="item">
+        <div class="item" data-id="6" data-name="dish 6">
           <img src="images/caesar.png" alt="" class="img" />
-          <button class="btn" id="btn6">Add</button>
+          <div class="item-actions">
+            <span class="item-price">$100</span>
+            <button class="btn order-btn">Add</button>
+            <div class="item-manage-count">
+              <button class="button-dec">-</button>
+              <span class="item-count">0</span>
+              <button class="button-inc">+</button>
+            </div>
+          </div>
         </div>
       </div>
     </div>
