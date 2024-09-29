@@ -51,6 +51,8 @@ drawMenu();
 function drawMenu() {
   tg.MainButton.setText(`Перейти в корзину`);
 
+  Telegram.WebApp.onEvent("mainButtonClicked", openCartCallback);
+
   const container = document.querySelector(".inner");
   container.innerHTML = "";
 
@@ -203,8 +205,6 @@ function makeOrderCallback() {
   tg.sendData(JSON.stringify(order));
   tg.close();
 }
-
-Telegram.WebApp.onEvent("mainButtonClicked", openCartCallback);
 
 function executeCart() {
   let tg = window.Telegram.WebApp;
