@@ -22,11 +22,15 @@ orderButtons.forEach((button, i) => {
 
     const dishId = parent.dataset.id;
     const dishName = parent.dataset.name;
+    const dishPrice = parent.dataset.price;
+    const dishImg = parent.dataset.img;
 
     order[dishId] = {
       id: dishId,
       name: dishName,
       count: 1,
+      price: dishPrice,
+      img: dishImg,
     };
 
     button.style.display = "none";
@@ -51,7 +55,7 @@ manageCountBlocks.forEach((block, i) => {
   const dishId = parent.dataset.id;
 
   minusButton.addEventListener("click", () => {
-    const dishesCount = Math.max(0, +count.innerText - 1);
+    const dishesCount = Math.max(0, (+count.innerText || 0) - 1);
 
     count.innerText = dishesCount;
     if (dishesCount === 0) {
@@ -70,7 +74,7 @@ manageCountBlocks.forEach((block, i) => {
   });
 
   plusButton.addEventListener("click", () => {
-    const dishesCount = +count.innerText + 1;
+    const dishesCount = (+count.innerText || 0) + 1;
 
     count.innerText = dishesCount;
 
@@ -82,9 +86,7 @@ manageCountBlocks.forEach((block, i) => {
 });
 
 cartButton.addEventListener("click", () => {
-  Telegram.WebApp.openTelegramLink(
-    "https://renelius.github.io/mamini.github.io/cart.html"
-  );
+  Telegram.WebApp.openTelegramLink("cart.html");
 });
 
 function countForCart(container) {
@@ -99,8 +101,9 @@ function saveOrderToLS() {
 }
 
 Telegram.WebApp.onEvent("mainButtonClicked", function () {
-  tg.sendData(item);
-  tg.close();
+  console.log(JSON.stringify(order));
+  // tg.sendData(JSON.stringify(order));
+  Telegram.WebApp.openTelegramLink("cart.html");
 });
 
 // let usercard = document.getElementById("usercard");
