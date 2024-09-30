@@ -10,37 +10,37 @@ const menu = [
     id: 1,
     name: "Картошечка  с курицей",
     img: "images/dish1.png",
-    price: 100,
+    price: 665,
   },
   {
     id: 2,
     name: "Клубничный десерт",
     img: "images/dish2.png",
-    price: 100,
+    price: 520,
   },
   {
     id: 3,
-    name: "Что-то с майонезом",
+    name: "Что-то с майонезом 12kj1n2jn2jkfenw3elfnkqwef",
     img: "images/dish3.png",
-    price: 100,
+    price: 345,
   },
   {
     id: 4,
     name: "Охотничий бургер де-люкс",
     img: "images/dish4.png",
-    price: 100,
+    price: 220,
   },
   {
     id: 5,
     name: "Роллы филадельфия",
     img: "images/dish5.png",
-    price: 100,
+    price: 345,
   },
   {
     id: 6,
     name: "Салат макаронный",
     img: "images/dish6.png",
-    price: 100,
+    price: 490,
   },
 ];
 
@@ -86,7 +86,7 @@ function drawMenu() {
 
     const buttonAdd = document.createElement("button");
     buttonAdd.classList.add("btn", "order-btn");
-    buttonAdd.innerText = `${price}₽`;
+    buttonAdd.innerText = `${price} ₽`;
 
     const itemManageBlock = document.createElement("div");
     itemManageBlock.classList.add("item-manage-count");
