@@ -109,7 +109,7 @@ body:has(.cart-container_open) {
   min-height: 100px;
   max-height: 100px;
 
-  background-color: var(--tg-theme-section-bg-color, bisque);
+  background-color: var(--tg-theme-secondary-bg-color, bisque);
 
   border-radius: 0 0 16px 16px;
 
@@ -132,6 +132,8 @@ body:has(.cart-container_open) {
   display: -webkit-box;
   -webkit-box-orient: vertical;
   -webkit-line-clamp: 2;
+
+  word-break: break-word;
 
   width: 100%;
 }
@@ -162,9 +164,15 @@ body:has(.cart-container_open) {
   outline: none;
 
   width: 40px;
+  height: 40px;
 
   background-color: transparent;
-  border: 1px solid var(--tg-theme-button-color, deepskyblue);
+  background-color: var(--tg-theme-button-color, deepskyblue);
+  color: var(--tg-theme-button-text-color, #fff);
+}
+
+.button-inc {
+  font-size: 16px;
 }
 
 .item-count {

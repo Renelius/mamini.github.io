@@ -20,7 +20,7 @@ const menu = [
   },
   {
     id: 3,
-    name: "Что-то с майонезом 12kj1n2jn2jkfenw3elfnkqwef",
+    name: "Что-то с майонезом",
     img: "images/dish3.png",
     price: 345,
   },
