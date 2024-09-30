@@ -56,6 +56,10 @@ function drawMenu() {
 
   Telegram.WebApp.onEvent("mainButtonClicked", openCartCallback);
 
+  if (Object.values(order).reduce((acc, cur) => acc + cur.count, 0) > 0) {
+    tg.MainButton.show();
+  }
+
   const container = document.querySelector(".inner");
   container.innerHTML = "";
 
