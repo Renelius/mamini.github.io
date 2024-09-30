@@ -8,43 +8,43 @@ tg.MainButton.color = "#2cab37";
 const menu = [
   {
     id: 1,
-    name: "dish 1",
-    img: "images/burger.png",
+    name: "Картошечка  с курицей",
+    img: "images/dish1.png",
     price: 100,
   },
   {
     id: 2,
-    name: "dish 2",
-    img: "images/burger.png",
+    name: "Клубничный десерт",
+    img: "images/dish2.png",
     price: 100,
   },
   {
     id: 3,
-    name: "dish 3",
-    img: "images/terpug.png",
+    name: "Что-то с майонезом",
+    img: "images/dish3.png",
     price: 100,
   },
   {
     id: 4,
-    name: "dish 4",
-    img: "images/terpug.png",
+    name: "Охотничий бургер де-люкс",
+    img: "images/dish4.png",
     price: 100,
   },
   {
     id: 5,
-    name: "dish 5",
-    img: "images/caesar.png",
+    name: "Роллы филадельфия",
+    img: "images/dish5.png",
     price: 100,
   },
   {
     id: 6,
-    name: "dish 6",
-    img: "images/caesar.png",
+    name: "Салат макаронный",
+    img: "images/dish6.png",
     price: 100,
   },
 ];
 
-let order = {};
+let order = JSON.parse(loadCartFromLS() || {});
 
 drawMenu();
 
@@ -80,13 +80,13 @@ function drawMenu() {
     const itemActions = document.createElement("div");
     itemActions.classList.add("item-actions");
 
-    const itemPrice = document.createElement("span");
-    itemPrice.innerText = `${price}$`;
-    itemPrice.classList.add("item-price");
+    const itemName = document.createElement("span");
+    itemName.innerText = `${name}`;
+    itemName.classList.add("item-name");
 
     const buttonAdd = document.createElement("button");
     buttonAdd.classList.add("btn", "order-btn");
-    buttonAdd.innerText = "Add";
+    buttonAdd.innerText = `${price}₽`;
 
     const itemManageBlock = document.createElement("div");
     itemManageBlock.classList.add("item-manage-count");
@@ -162,7 +162,7 @@ function drawMenu() {
 
     itemManageBlock.append(buttonDec, itemCount, buttonInc);
 
-    itemActions.append(itemPrice, buttonAdd, itemManageBlock);
+    itemActions.append(itemName, buttonAdd, itemManageBlock);
 
     item.append(itemImg, itemActions);
 
