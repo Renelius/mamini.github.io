@@ -1,3 +1,5 @@
+const CART_KEY = "restoraunt_order";
+
 let tg = window.Telegram.WebApp;
 
 tg.expand();
@@ -182,11 +184,11 @@ function countForCart(container) {
 }
 
 function saveOrderToLS() {
-  localStorage.setItem("restoraunt_order", JSON.stringify(order));
+  localStorage.setItem(CART_KEY, JSON.stringify(order));
 }
 
 function loadCartFromLS() {
-  return localStorage.getItem("restoraunt_order");
+  return localStorage.getItem(CART_KEY);
 }
 
 function updateTgButtonText() {
@@ -217,6 +219,7 @@ function openCartCallback() {
 function makeOrderCallback() {
   console.log(JSON.stringify(order));
   tg.sendData(JSON.stringify(order));
+  localStorage.removeItem(CART_KEY);
   tg.close();
 }
 
