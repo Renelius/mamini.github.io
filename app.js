@@ -44,7 +44,7 @@ const menu = [
   },
 ];
 
-let order = JSON.parse(loadCartFromLS() || {});
+let order = JSON.parse(loadCartFromLS() || "{}");
 
 drawMenu();
 
